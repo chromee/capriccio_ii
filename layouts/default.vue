@@ -1,53 +1,55 @@
 <template>
   <div>
-    <nuxt/>
+    <nav class="orange darken-2">
+      <div class="nav-wrapper">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a @click="login">login</a></li>
+          <!-- <li v-if="isLogin"><a @click="logout">{{ userData.displayName }} logout</a></li> -->
+        </ul>
+      </div>
+    </nav>
+    <div class="container center-align">
+      <nuxt/>
+    </div>
   </div>
 </template>
 
-<style>
-html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+<script>
+import firebase from "@/plugins/firebase";
 
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+export default {
+  methods: {
+    login: function() {
+      firebase
+        .auth()
+        .signInWithRedirect(new firebase.auth.TwitterAuthProvider());
+    },
+    logout: function() {
+      firebase.auth().signOut();
+    }
+  },
+  async asyncData({ params, store }) {
+    return {
+      isLogin: false,
+      userData: null
+    };
+  },
+  fetch() {
+    // `fetch` メソッドはページの描画前にストアを満たすために使用されます
+  },
+  mounted: function() {
+    firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
+      if (user) {
+        this.isLogin = true;
+        this.userData = user;
+      } else {
+        this.isLogin = false;
+        this.userData = null;
+      }
+    });
+  }
+};
+</script>
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
 

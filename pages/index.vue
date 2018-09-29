@@ -3,17 +3,14 @@
     <div class="row">
       <div class="input-field col s3">
         <select>
-          <option value="" disabled selected>Choose your option</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
+          <option value="1">comment</option>
+          <option value="2">tag</option>
         </select>
-        <label>Materialize Select</label>
       </div>
       <div class="input-field col s9">
-        <input id="search" type="search" required>
-        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-        <i class="material-icons">close</i>
+        <i class="material-icons prefix">search</i>
+        <input id="search" type="text" class="validate">
+        <label for="search">search</label>
       </div>
     </div>
   </div>
@@ -28,4 +25,3 @@ export default {
   }
 };
 </script>
-

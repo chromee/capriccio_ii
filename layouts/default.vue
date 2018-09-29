@@ -3,8 +3,9 @@
     <nav class="orange darken-2">
       <div class="nav-wrapper">
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a @click="login">login</a></li>
-          <!-- <li v-if="isLogin"><a @click="logout">{{ userData.displayName }} logout</a></li> -->
+          <li v-if="!this.$store.state.user"><a @click="login">login</a></li>
+          <li v-if="this.$store.state.user">{{this.$store.state.user.displayName}}</li>
+          <li v-if="this.$store.state.user"><a @click="logout">logout</a></li>
         </ul>
       </div>
     </nav>
@@ -16,6 +17,7 @@
 
 <script>
 import firebase from "@/plugins/firebase";
+import { mapState } from "vuex";
 
 export default {
   methods: {
@@ -30,24 +32,24 @@ export default {
   },
   async asyncData({ params, store }) {
     return {
+      name: "Hello, World！！",
       isLogin: false,
       userData: null
     };
   },
-  fetch() {
-    // `fetch` メソッドはページの描画前にストアを満たすために使用されます
-  },
+  fetch({ store, params }) {},
   mounted: function() {
     firebase.auth().onAuthStateChanged(user => {
       console.log(user);
       if (user) {
-        this.isLogin = true;
-        this.userData = user;
+        this.$store.state.user = user;
       } else {
-        this.isLogin = false;
-        this.userData = null;
+        this.$store.state.user = null;
       }
     });
+  },
+  computed: {
+    ...mapState(["user"])
   }
 };
 </script>

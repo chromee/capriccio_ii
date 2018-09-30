@@ -3,7 +3,9 @@
     <nav>
       <div class="nav-wrapper">
         <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li><a class="modal-trigger" href="#upload-modal">upload</a></li>
+          <li><a href="/">home</a></li>
+          <li><a href="/upload">upload</a></li>
+          <!-- <li><a class="modal-trigger" href="#upload-modal">upload</a></li> -->
         </ul>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><i class="fab fa-twitter"></i></li>
@@ -16,27 +18,7 @@
     <div id="upload-modal" class="modal">
       <div class="modal-content">
         <h3>New Capture</h3>
-        <form action="#">
-          
-          <div class="input-field">
-            <div class="chips"></div>
-          </div>
-
-          <div class="input-field">
-            <textarea id="comment" class="materialize-textarea"></textarea>
-            <label for="comment">comment</label>
-          </div>
-
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>File</span>
-              <input type="file">
-            </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
-            </div>
-          </div>
-        </form>
+        <upload-form/>
       </div>
     </div>
 
@@ -47,10 +29,14 @@
 </template>
 
 <script>
+import UploadForm from "~/components/UploadForm.vue";
 import firebase from "@/plugins/firebase";
 import { mapState } from "vuex";
 
 export default {
+  components: {
+    UploadForm
+  },
   methods: {
     login: function() {
       firebase
@@ -63,9 +49,7 @@ export default {
   },
   async asyncData({ params, store }) {
     return {
-      name: "Hello, World！！",
-      isLogin: false,
-      userData: null
+      name: "Hello, World！！"
     };
   },
   fetch({ store, params }) {},
@@ -83,11 +67,6 @@ export default {
 
     $(document).ready(function() {
       $(".modal").modal();
-    });
-
-    $(".chips").chips({
-      placeholder: "add tag",
-      secondaryPlaceholder: "+Tag"
     });
   },
   computed: {

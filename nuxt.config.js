@@ -4,7 +4,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'nuxt-firebase-example',
+    title: 'capriccio II',
     meta: [{
         charset: 'utf-8'
       },

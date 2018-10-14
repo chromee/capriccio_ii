@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from '~/plugins/firebase'
 import { firebaseMutations, firebaseAction } from 'vuexfire'
-const db = firebase.database()
-const usersRef = db.ref('/users')
-const captures = db.ref('/captures')
+
+// const db = firebase.firestore()
+// const usersRef = db.collection('users')
+// const captures = db.collection('captures')
 const provider = new firebase.auth.TwitterAuthProvider()
 
 Vue.use(Vuex)
@@ -17,49 +18,28 @@ const store = () =>
     },
     getters: {
       user: state => state.user,
-      captures: state => {
-        return state.captures.reverse()
-      }
+      captures: state => state.captures.reverse()
     },
     mutations: {
-      SetCredential(state, { user }) {
+      setUser(state, { user }) {
         state.user = user
       },
-      SaveCapture(state, { capture }) {
+      saveCapture(state, { capture }) {
         state.captures.push(capture)
       },
       ...firebaseMutations
     },
     actions: {
-      async SET_CREDENTIAL({ commit }, { user }) {
+      async SET_USER({ commit }, { user }) {
         if (!user) return
-        await usersRef
-          .child(user.email.replace('@', '_at_').replace(/\./g, '_dot_'))
-          .set({
-            name: user.displayName,
-            email: user.email,
-            icon: user.photoURL
-          })
-        commit('setCredential', { user })
+        commit('setUser', { user })
       },
-      async INIT_SINGLE({ commit }, { id }) {
-        const snapshot = await capturesRef.child(id).once('value')
-        commit('saveCapture', { capture: snapshot.val() })
-      },
-      INIT_USERS: firebaseAction(({ bindFirebaseRef }) => {
-        bindFirebaseRef('users', usersRef)
-      }),
-      INIT_CAPTURES: firebaseAction(({ bindFirebaseRef }) => {
-        bindFirebaseRef('captures', capturesRef)
-      }),
-      ADD_CAPTURE: firebaseAction((ctx, { email, body }) => {
-        capturesRef.push({
-          from: email,
-          body
-        })
-      }),
-      callAuth() {
+      login() {
         firebase.auth().signInWithRedirect(provider)
+      },
+      logout({ commit }) {
+        firebase.auth().signOut()
+        commit('setUser', {})
       }
     }
   })

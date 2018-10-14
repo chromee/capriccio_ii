@@ -9,7 +9,7 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><i class="fab fa-twitter"></i></li>
         <li v-if="!user"><a @click="login">login</a></li>
-        <li v-if="user"><a @click="logout">logout</a></li>
+        <li v-else><a @click="logout">logout</a></li>
       </ul>
     </div>
   </nav>
@@ -25,41 +25,40 @@
 </template>
 
 <script>
+import auth from '~/plugins/auth'
 import UploadForm from '~/components/UploadForm.vue'
-import firebase from '@/plugins/firebase'
-import { mapState } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  data() {
+    return { isLoaded: false }
+  },
   components: {
     UploadForm
   },
-  methods: {
-    login: function() {
-      firebase
-        .auth()
-        .signInWithRedirect(new firebase.auth.TwitterAuthProvider())
-    },
-    logout: function() {
-      firebase.auth().signOut()
-    }
+  computed: {
+    ...mapGetters(['user'])
   },
-  mounted: function() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.$store.state.user = user
-      } else {
-        this.$store.state.user = null
-      }
-    })
-
-    var user = this.$store.state.user
+  methods: {
+    ...mapActions(['login', 'logout'])
+  },
+  async mounted() {
+    let user
+    if (!this.user) user = await auth()
+    await Promise.all([
+      this.user
+        ? Promise.resolve()
+        : this.$store.dispatch('SET_USER', { user: user || null })
+      // this.posts.length
+      //   ? Promise.resolve()
+      //   : this.$store.dispatch('INIT_POSTS'),
+      // this.users.length ? Promise.resolve() : this.$store.dispatch('INIT_USERS')
+    ])
+    this.isLoaded = true
 
     $(document).ready(function() {
       $('.modal').modal()
     })
-  },
-  computed: {
-    ...mapState(['user'])
   }
 }
 </script>

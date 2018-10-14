@@ -1,11 +1,12 @@
 module.exports = {
-  mode: "spa",
+  mode: 'spa',
   /*
    ** Headers of the page
    */
   head: {
     title: 'capriccio II',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8'
       },
       {
@@ -18,7 +19,8 @@ module.exports = {
         content: 'Nuxt.js project'
       }
     ],
-    link: [{
+    link: [
+      {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
@@ -29,22 +31,26 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'
       },
       {
         rel: 'stylesheet',
-        href: "https://use.fontawesome.com/releases/v5.3.1/css/all.css",
-        integrity: "sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU",
-        crossorigin: "anonymous"
+        href: 'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
+        integrity:
+          'sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU',
+        crossorigin: 'anonymous'
       }
     ],
-    script: [{
-        src: 'https://code.jquery.com/jquery-2.1.1.min.js'
+    script: [
+      {
+        src: 'https://code.jquery.com/jquery-2.2.4.min.js'
       },
       {
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'
-      },
-    ],
+        src:
+          'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'
+      }
+    ]
   },
   /*
    ** Customize the progress bar color
@@ -59,9 +65,7 @@ module.exports = {
     /*
      ** Run ESLint on save
      */
-    extend(config, {
-      isDev
-    }) {
+    extend(config, { isDev }) {
       if (isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',

@@ -13,15 +13,24 @@
         <label for="search">search</label>
       </div>
     </div>
+    <div>
+      <Captures />
+    </div>
   </div>
 </template>
 
 <script>
+import Captures from '~/components/Captures.vue'
+import { mapGetters } from 'vuex'
+
 export default {
   mounted: function() {
     $(document).ready(function() {
-      $("select").formSelect();
-    });
+      $('select').formSelect()
+    })
+  },
+  computed: {
+    ...mapGetters(['user', 'captures'])
   }
-};
+}
 </script>

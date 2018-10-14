@@ -81,3 +81,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.chips {
+  height: 44.5px;
+  margin: 0;
+}
+</style>

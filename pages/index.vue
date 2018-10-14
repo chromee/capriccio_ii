@@ -14,7 +14,7 @@
       </div>
     </div>
     <div>
-      <Captures />
+      <!-- <Captures /> -->
     </div>
   </div>
 </template>
